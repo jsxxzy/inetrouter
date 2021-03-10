@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .title }}</title>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/minireset.css/0.0.2/minireset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@geist-ui/style@latest/dist/style.css">
+  <link rel="stylesheet" href="https://style.geist-ui.dev/template_style.css">
+  <style>
+    .diy-div .zi-note {
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="zi-main zi-layout ex-layout">
+    <!-- <div class="ex-side">
+      <div class="ex-side-content">
+        <p class="zi-title">校园网路由器</p>
+        <p class="zi-title">大专人雄起</p>
+      </div>
+    </div> -->
+    <div class="ex-content">
+      <h2 id="about">校园网设置</h2>
+      <div class="zi-card">
+        <button class="zi-btn">登录/注销</button>
+
+        <button class="zi-btn">多开账号</button>
+
+        <div class="zi-card" style="margin-top: 24px;">
+
+          <div>
+            <input class="zi-input" placeholder="账号" type="text">
+          </div>
+
+          <div style="margin-top: 12px;margin-bottom: 12px;">
+            <input class="zi-input" placeholder="密码" type="password">
+          </div>
+          
+          <div style="position: relative;left: 12px;">
+            <button class="zi-btn primary">添加账号</button>
+            <div style="margin-top: 12px;">
+              <button class="zi-btn mini">关闭</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="diy-div" style="margin-top: 24px;">
+          <div class="zi-note hint"><span class="zi-note-type" style="width: 80px; text-align: right;display: inline-block">使用时长:</span> {{ info.Time }}分钟</div>
+          <div class="zi-note hint"><span class="zi-note-type" style="width: 80px; text-align: right;display: inline-block">使用流量:</span> {{ info.Flow }} MB</div>
+          <div class="zi-note hint"><span class="zi-note-type" style="width: 80px; text-align: right;display: inline-block">用户id: </span> {{ info.UID }}</div>
+          <div class="zi-note hint"><span class="zi-note-type" style="width: 80px; text-align: right;display: inline-block">内网地址: </span> {{ info.V4ip }}</div>
+        </div>
+        <p>
+          <code>大专人雄起</code>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+  try {
+    const vue = new Vue({
+      el: "#app",
+      data: {
+        info: {
+          Flow: 0,
+          Portalname: "",
+          Time: "",
+          UID: "",
+          V4ip: "",
+          V6ip: "::",
+          Xip: "000.000.000.000."
+        }
+      },
+      created: function() {
+        this.updateUI()
+      },
+      methods: {
+        updateUI: async function() {
+          try {
+            const { data } = await axios.get("/api/info")
+            this.info = data
+          } catch (error) {
+            console.log("先死个妈先..")
+          }
+        }
+      }
+    })
+  } catch (error) {
+    console.error("未知错误")
+  }
+  
+</script>
+</html>
